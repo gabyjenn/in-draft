@@ -13,7 +13,7 @@ type Post = {
   bodyKo?: any[]
 }
 
-export default async function HomePage() {
+export default async function KoreanPage() {
   const posts: Post[] = await client.fetch(
     POSTS_QUERY,
     {},
@@ -50,29 +50,28 @@ export default async function HomePage() {
 
         <SearchBar />
 
-        <a href="/ko">kor</a>
+        <a href="/">eng</a>
       </div>
 
       <main
         className="container-everything stacked-preview"
         id="content"
-        lang="en"
+        lang="ko"
       >
         <PostsList
           posts={posts}
-            language="en"
+          language="ko"
         />
 
         <div className="content no-preview" id="about">
           <div className="header">
             <div className="left" style={{color: 'blue'}}>
-              About
+              소개
             </div>
           </div>
 
           <p>
-            in:draft is Jeewon Kim&apos;s space for half-private
-            thoughts. When I'm not writing here, I design for a living and watch a lot of film & TV.
+            in:draft는 김지원의 어중간하게 사적인 글을 위한 공간입니다. 글을 쓰지 않는 대부분의 시간에는 디자인 일을 하고 영화관과 TV 앞에 앉아 있습니다.
           </p>
         </div>
 

@@ -1,26 +1,370 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nanum+Myeongjo&family=National+Park:wght@200..800&family=Noto+Sans+KR:wght@100..900&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+*{
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    box-sizing: border-box;
+    user-select: none;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.container-everything:lang(en) {
+    font-family: var(--font-nanum), serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.4;
+}
+.container-everything:lang(ko) {
+    font-family: var(--font-nanum), serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+}
+.navigation a {
+  font-family: var(--font-nanum), serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+body{
+    background-color: white;
+    color: black;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.container-everything {
+    max-width: 600px;
+    padding: 0 20px;
+    margin: 100px auto;
+    box-sizing: border-box;
+    width: 100%;  /* ensure width shrinks on smaller screens */
+}
+.navigation {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 560px; /* container width minus paddings */
+    width: 100%;
+    padding: 12px 0;
+    box-sizing: border-box;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px; /* horizontal gap between items */
+    
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255);
+    border: 1px solid rgb(220, 223, 230);
+    box-shadow: 0 0 1px rgba(194, 198, 202, 0.5);
+    z-index: 99;
+}
+.navigation a:first-child {
+    padding-left: 2cqb;   /* keep left padding */
+    padding-right: 0;  /* big space from input */
+}
+.navigation a:last-child {
+    padding-left: 0;   /* big space from input */
+    padding-right: 20px;  /* keep right padding */
+}
+.search-input {
+    flex-grow: 1;   /* fills remaining space */
+    margin: 0;
+    padding: 0;     /* no internal horizontal padding */
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid black;
+    background: transparent;
+    outline: none;
+    font-family: "IBM Plex Serif", serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: black;
+    box-sizing: border-box;
+    min-width: 0;  /* prevent overflow inside flex */
+}
+.search-input::placeholder {
+    color: transparent;
+}
+/* Highlight styles */
+.search-highlight {
+  background-color: blue;
+  color: white !important;
+}
+mark {
+    background-color: white;
+    color: black;
+    padding: 0;
+    font-weight: 400;
+}
+.highlight mark:hover {
+    background-color: white;
+    color: black;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+  
+.header-text {
+    /* order: 0; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+  
+.left {
+    font-size: 18px;
+}
+  
+.right {
+    font-size: 15px;
+    margin-top: 4px;
+    color: rgb(138, 142, 152);
+}
+  
+.icon {
+    /* order: -1; */
+    width: 28px;
+    height: 28px;
+    margin-left: 16px;
+    /* margin-right: 16px; */
+    flex-shrink: 0;
+
+    /* padding: 4px;
+    border: 1px solid black;
+    border-radius: 50%;
+    object-fit: cover;
+    box-sizing: content-box; */
+}
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  margin-bottom: 16px;
+}
+
+.date-filter,
+.category-filter {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-nanum), serif;
+}
+
+.date-filter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  color: rgb(138, 142, 152);
+}
+
+.date-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.date-arrow.ascending {
+  transform: rotate(180deg);
+}
+
+.category-filters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.category-filter {
+  color: rgb(138, 142, 152);
+}
+
+.category-filter.active {
+  color: blue;
+}
+
+.category-filter svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+  
+/* UPDATED: stacked-preview mode default styles */
+
+.stacked-preview .content {
+    max-height: calc(300px - 30px);
+    overflow: hidden;
+    margin-bottom: 16px;
+    padding: 20px 15px;
+    /* box-shadow: 0 0 16px rgb(216, 221, 226); */
+    /* border-radius: 16px; */
+    border-top: 1px solid rgb(220, 223, 230);
+    background-color: white;
+    cursor: default;
+    position: relative;
+    transition: max-height 0.4s ease;
+}
+/* Fade overlay for preview state */
+.stacked-preview .content::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px; /* height of fade */
+    border-radius: 0 0 16px 16px;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      white calc(100% - 40px)
+    );
+}
+/* Remove transform offsets */
+.stacked-preview .content:nth-child(odd),
+.stacked-preview .content:nth-child(even) {
+    transform: none;
+    z-index: auto;
+}
+/* Expanded state on click */
+.stacked-preview .content.expanded {
+    max-height: none;
+    overflow: visible;
+}
+/* Remove fade overlay when expanded */
+.stacked-preview .content.expanded::after {
+    display: none;
+}
+/* content paragraph styling unchanged */
+.content p {
+    max-width: 700px;
+    margin-bottom: 16px;
+}
+.no-preview::after {
+    display: none !important;
+}
+.no-preview {
+    max-height: none;
+    overflow: visible;
+}
+
+.quote {
+    padding: 30px;
+}
+.bio {
+  font-family: var(--font-nanum), serif;
+    font-weight: 400;
+    font-size: 16px;
+    padding-bottom: 10px;
+    padding: 15px;
+}
+.button {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    margin: 0 auto;
+    color: black;
+    background-color: white;
+    background-color: rgba(255, 255, 255);
+    border: 1px solid rgb(220, 223, 230);
+    box-shadow: 0 0 1px rgba(194, 198, 202, 0.5);
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: "IBM Plex Serif", serif;
+    font-weight: 300;
+    font-size: 20px;
+    z-index: 9999;
+}
+  
+hr {
+    border: 0.5px solid rgb(255, 255, 255);
+    margin: 10px 0 10px 0;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* EXPAND BUTTON */
+.expand-button {
+    position: absolute;
+    bottom: 0px;
+    background-color: rgb(255, 255, 255);
+    z-index: 2; /* Higher than the white gradient */
+    color: black;
+    border: none;
+    /* border: 1px solid rgb(194, 198, 202); */
+    border-radius: 999px;
+    font-size: 16px;
+    text-decoration: underline;
+    /* padding: 8px 16px 7px 16px; */
+    font-family: var(--font-nanum), serif;
+    font-weight: 400;
+    cursor: pointer;
+    /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); */
+    transition: background 0.2s;
+}
+
+/* Info Button */
+.button {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  margin: 0 auto;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: black;
+  background: white;
+  border: 1px solid rgb(220, 223, 230);
+  box-shadow: 0 0 1px rgba(194, 198, 202, 0.5);
+
+  text-decoration: none;
+  font-family: var(--font-ibm-plex), serif;
+  font-weight: 300;
+  font-size: 20px;
+
+  z-index: 9999;
+}
+
+/* MEDIA QUERY */
+@media (max-width: 400px) {
+
+  .container-everything {
+    padding: 0 15px;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  .stacked-preview .content {
+    padding: 20px 10px;
+  }
+    .navigation {
+      width: calc(100% - 20px); /* less horizontal padding on narrow screens */
+      padding: 12px 0px;
+    }
+    .navigation a {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .quote {
+        padding: 20px;
+    }
+  }
