@@ -8,6 +8,7 @@ type Post = {
   titleEn?: string
   titleKo?: string
   date?: string
+  sortOrder?: number
   category?: 'review' | 'letter' | 'essay'
   bodyEn?: any[]
   bodyKo?: any[]

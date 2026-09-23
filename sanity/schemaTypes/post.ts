@@ -27,6 +27,14 @@ export const postType = defineType({
     }),
 
     defineField({
+        name: 'sortOrder',
+        title: 'Sort Order',
+        type: 'number',
+        description: 'Lower numbers appear first',
+        validation: (Rule) => Rule.integer(),
+    }),
+
+    defineField({
       name: 'category',
       title: 'Category',
       type: 'string',
